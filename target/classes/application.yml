@@ -1,0 +1,25 @@
+server:
+  port : 8082
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/sql_store
+    username: root
+    password: Lodav72#
+  jpa:
+    generate-ddl : true
+    show-sql: true
+    hibernate:
+      ddl-auto : update
+      format_sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+
+  security:
+    filter:
+      order: 10
+
+jwt:
+  secret : cDJ3DacmMbxoQnVUyS15IYBCyJxSgKcdqtjDn5AKP0Av3dS7ZAivAzsfijxF88R8sbAR/i6pssz7zvcF4E8+dw==
