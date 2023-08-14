@@ -10,7 +10,6 @@ public class Authority implements GrantedAuthority {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String authority;
-    @Transient
     @ManyToOne(optional = false)
     private User user;
 

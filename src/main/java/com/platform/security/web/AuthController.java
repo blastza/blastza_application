@@ -3,6 +3,7 @@ package com.platform.security.web;
 import com.platform.security.dao.AuthCredentialsRequest;
 import com.platform.security.dao.User;
 import com.platform.security.util.JwtUtil;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -44,6 +46,18 @@ public class AuthController {
                     .body(user);
         } catch (BadCredentialsException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+    //@CrossOrigin(origins = "http://localhost:8082")
+    @GetMapping("/validate")
+    public ResponseEntity<?> validateToken(@RequestParam String token,
+                                           @AuthenticationPrincipal User user){
+        try {
+            Boolean isValidToken = jwtTokenUtil.validateToken(token, user);
+            return ResponseEntity.ok(isValidToken);
+        } catch (ExpiredJwtException ex){
+            return ResponseEntity.ok(false);
         }
     }
 }
