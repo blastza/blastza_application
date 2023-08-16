@@ -1,6 +1,7 @@
 package com.platform.security.web;
 
 import com.platform.security.assigmentApp.domain.Assignment;
+import com.platform.security.dao.AssignmentResponseDto;
 import com.platform.security.dao.User;
 import com.platform.security.service.AssignmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,10 @@ public class AssignmentController {
     @GetMapping("{assignmentId}")
     public ResponseEntity<?> getAssignmentById(@PathVariable Long assignmentId, @AuthenticationPrincipal User user) {
         Optional<Assignment> byId = assignmentService.getById(assignmentId);
-        return ResponseEntity.ok(byId.orElse(new Assignment()));
+
+        AssignmentResponseDto response = new AssignmentResponseDto(byId.orElse(new Assignment()));
+
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("{assignmentId}")
